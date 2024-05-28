@@ -10,6 +10,7 @@ dependencies:
   - pandas
   - nbgitpuller
   - matplotlib
+  - spacy
   - pip:
       - langdetect
 prefix: C:\Users\HLloyd\AppData\Local\mambaforge\envs\incu
