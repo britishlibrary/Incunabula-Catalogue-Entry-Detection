@@ -1,6 +1,13 @@
 # data
 /data/*/
 
+# everything that's not environment repo
+notebooks/
+reports/
+src/
+TranskribusPyClient/
+tests/
+
 # nb checkpoints
 .ipynb_checkpoints/
 
@@ -9,3 +16,5 @@
 
 # pycharm
 .idea/
+
+
