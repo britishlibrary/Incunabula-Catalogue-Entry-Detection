@@ -2,9 +2,10 @@
 
 This branch of our Incunabula Catalogue Entry Detection repo contains the Binder link for Workshop #6, _Catalogues as Data for Computational Analysis_, at Digital Humanities Nordic and Baltic 2024, 28-31 May in Reykjavik, Iceland. Presenters for the workshop are [Rossitza Atanassova](https://www.linkedin.com/in/rossitza-atanassova-bb026217/) and [Harry Lloyd](https://www.linkedin.com/in/harry-lloyd-9140b970/). The Binder links to data and notebooks for interactive use in the workshop, click the link below to begin!
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/britishlibrary/Incunabula-Catalogue-Entry-Detection/DHNB?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fharrylloyd-bl%252Fdhnb-incu-content-repo%26urlpath%3Dlab%252Ftree%252Fdhnb-incu-content-repo%252Fnotebooks%252FCatalogues%2Bas%2BData%2Bfor%2BComputational%2BAnalysis%2B-%2BDHNB%2B2024.ipynb%26branch%3Dbounding_box)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/britishlibrary/Incunabula-Catalogue-Entry-Detection/dhnb-0524?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fharrylloyd-bl%252Fincu-binder-content-repo%26urlpath%3Dlab%252Ftree%252Fincu-binder-content-repo%252Fnotebooks%252FCatalogues%2Bas%2BData%2Bfor%2BComputational%2BAnalysis%2B-%2BDHNB%2B2024.ipynb%26branch%3Ddhnb-0524
+)
 
-This is the environment repo for the Binder. Data and notebooks are held in the [content repo](https://github.com/harrylloyd-bl/dhnb-incu-content-repo/tree/bounding_box), which is what is displayed when the binder link opens. This set-up improves load times while developing the Binder.
+This is the environment repo for the Binder. Data and notebooks are held in the [content repo](https://github.com/harrylloyd-bl/incu-binder-content-repo/tree/dhnb-0524), which is what is displayed when the binder link opens. This set-up improves load times while developing the Binder.
 
 ## Project information
 
