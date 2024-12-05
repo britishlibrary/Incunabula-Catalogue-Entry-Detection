@@ -1,14 +1,15 @@
+from functools import partial
+import glob
 import os
 import re
-import glob
 from copy import copy
 from xml.dom import minidom
-from functools import partial
 import numpy as np
 import pandas as pd
-from langdetect import detect
+from langdetect import detect, LangDetectException
 from tqdm import tqdm
 from xml.etree import ElementTree as ET
+tqdm.pandas()
 
 
 def gen_xml_paths(path: str | os.PathLike) -> list[str]:
@@ -283,15 +284,6 @@ def extract_catalogue_entries(lines: list[str],
     return entry_df
 
 
-def groupby_save(group, directory):
-    xml, shelfmark = group.name
-    filename = f"{xml}_{group.index.values[0]}_{shelfmark.replace('.', '_').replace(' ', '')}.txt"
-    with open(os.path.join(directory, filename), "w", encoding="utf-8") as f:
-        f.write("\n".join(group["entry"].values[0]))
-
-    return None
-
-
 def extract_another_copy():
     """
 
@@ -307,83 +299,72 @@ def extract_another_copy():
     return None
 
 
-def split_by_language(lines: list[str]):
+def detect_en(s: str) -> bool:
     """
-    Original ID fn - `splits up a document by the detected language`
-    ID designed it to work with entries split as in original save_split_txt()
-    Detect languages in a list of entry lines
-    Split based on language
-    :param lines:
-    :return:
+    Error handled english language detection
+    :param s: str
+    :return: bool
     """
-    split_lines = []
-    first_line_lan = ""
-    second_line_lan = ""
     try:
-        first_line_lan = detect(lines[0])
-    except:
-        first_line_lan = "can't find language"
-    try:
-        second_line_lan = detect(lines[1])
-    except:
-        second_line_lan = "can't find language"
-    first2_lines = [first_line_lan, second_line_lan]
-    language_en = first2_lines.count("en") == 2
-    first_language = language_en
-    current_block = [lines[0], lines[1]]
-    for ind in range(2, len(lines[:-1])):
-        c_line_lan = ""
-        n_line_lan = ""
-        try:
-            c_line_lan = detect(lines[ind])
-        except:
-            c_line_lan = "can't find language"
-        try:
-            n_line_lan = detect(lines[ind + 1])
-        except:
-            n_line_lan = "can't find language"
-        next2_lines = [c_line_lan, n_line_lan]
-        if (next2_lines.count("en") == 0) and language_en:
-            language_en = False
-            split_lines.append(current_block)
-            current_block = [lines[ind]]
-        elif (next2_lines.count("en") == 2) and (not language_en):
-            language_en = True
-            split_lines.append(current_block)
-            current_block = [lines[ind]]
-        else:
-            current_block.append(lines[ind])
-    current_block.append(lines[-1])
-    split_lines.append(current_block)
-    return first_language, split_lines
+        return detect(s) == "en"
+    except LangDetectException:
+        return False
 
 
-# Saves all of the text, split into catalogue entries into text files where non-english sections of text are removed
-def save_split_txt(all_title_indices, all_lines, out_path, title_refs):
-    if not os.path.exists(out_path):
-        os.makedirs(out_path)
+def _prepare_for_classification(entries: pd.Series) -> pd.Series:
+    """
+    Convert entries into a flattened series where each row is a single line
+    Ready to be classified by detect_en
+    :param entries: pd.Series
+    :return: pd.Series
+    """
+    idx_base = entries.apply(len).reset_index()
+    idx = idx_base.apply(lambda x: [x["index"]] * x["entry"], axis=1).sum()
+    idx_tups = [(i, j) for i, j in zip(idx, [x for x in range(len(idx))])]
+    multi_idx = pd.MultiIndex.from_tuples(idx_tups)
 
-    for itr in tqdm(range(len(all_title_indices[:-2]))):
-        title_indices = all_title_indices[itr]
-        catalogue_indices = [x for x in range(title_indices[1], all_title_indices[itr + 1][0])]
-        full_title = "".join([all_lines[x] for x in title_indices])
+    lines = pd.Series(data=entries.sum(), index=multi_idx)
+    return lines
 
-        catalogue_lines = [all_lines[x] for x in catalogue_indices]
-        first_language, split_catalogue_lines = split_by_language(catalogue_lines)
 
-        save_path_file = os.path.join(out_path, title_refs[itr + 1].replace(".", "-") + ".txt")
-        with open(save_path_file, "w", encoding="utf-8") as f:
-            f.write(full_title + "\n")
-            language_en = first_language
-            for block_lines in split_catalogue_lines:
-                if language_en:
-                    for line in block_lines:
-                        f.write(line + "\n")
-                else:
-                    f.write("-----------------------------------\n")
-                    f.write("NON-ENGLISH SECTION LASTING {} LINES\n".format(len(block_lines)))
-                    f.write("-----------------------------------\n")
-                language_en = not language_en
+def _select_lang_in_group(group: pd.Series, en=True) -> pd.Series:
+    """
+    Designed to be used in groupby operation on a Series
+    Always retains the first two lines of an entry (title lines)
+    Even if no other lines in the entry are classified as English
+    :param group: pd.Series
+    :return: pd.Series
+    """
+    bool_rolling = group.rolling(window=2, closed='right').mean()
+    bool_rolling.iloc[0] = 1  # set Title rows to en
+    #  .rolling(window=2) uses the index of the second data point in the window as the index
+    #  transitions to new language sections therefore treat the 1st line of that language as a boundary
+    #  to handle this bffill with a limit of 1, then ffill the rest of the NAs
+    en_sections = bool_rolling.where(bool_rolling != 0.5, pd.NA).bfill(limit=1).ffill().astype(bool)
+    if en:
+        return group[en_sections]
+    else:
+        return group[~en_sections]
+
+
+def get_language_sections(entries: pd.Series) -> (pd.Series, pd.Series):
+    """
+    Find the English parts of a Series of entries
+    Use rolling to allow for single words classified as 'en' in a non-english block without breaking the block
+    :param entries: pd.Series
+    :return: (pd.Series, pd.Series)
+    """
+    lines = _prepare_for_classification(entries)
+    line_is_en = lines.progress_apply(detect_en)
+
+    en_sections = line_is_en.groupby(level=0).apply(_select_lang_in_group, en=True)
+    en_entries = lines.loc[en_sections.index.droplevel(level=0)].transform(lambda x: [x]).groupby(level=0).agg(lambda x: x.sum())
+
+    non_en_sections = line_is_en.groupby(level=0).apply(_select_lang_in_group, en=False)
+    raw_non_en_entries = lines.loc[non_en_sections.index.droplevel(level=0)].transform(lambda x: [x]).groupby(level=0).agg(lambda x: x.sum())
+    non_en_entries = raw_non_en_entries.reindex(en_entries.index)
+    non_en_entries[non_en_entries.isna()] = ""
+    return en_entries, non_en_entries
 
 
 # Returns the number of lines in a page which are too long

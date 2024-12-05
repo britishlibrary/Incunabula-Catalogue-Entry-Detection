@@ -3,7 +3,8 @@ from xml.etree import ElementTree as ET
 import os
 import glob
 import pytest
-from numpy import nan, array_equal
+from pandas import Series
+from numpy import NaN
 from tqdm import tqdm
 from functools import partialmethod
 
@@ -179,6 +180,48 @@ def test_extract_catalogue_entries():
     assert catalogue_entries.shape == (3, 8)
     assert catalogue_entries["xmls"].tolist() == [["title_xml_example_1"], ["title_xml_example_1"], ["title_xml_example_1", "title_xml_example_2"]]
     assert catalogue_entries["xml_start_line"].to_list() == [[6], [3], [2, 4]]
+
+
+def test_detect_en():
+    assert xmle.detect_en("Hello this should be English")
+    assert not xmle.detect_en("Bonjour je m'appelle Jean-Paul")
+    assert not xmle.detect_en(".")
+
+
+def test_get_english_sections():
+    entries = Series(
+        data=[  # each list represents a catalogue entry, each list item a line in that entry line
+            ["This statement is English", "Ce ligne est Francais", "and English again"],
+            [
+                "Ce ligne est Francais", "Ce ligne est Francais une", "Ce ligne est Francais deux",
+                "This statement is English", "Ce ligne est Francais", "This statement is English one",
+                "This statement is English", "1.2.4", "This statement is English"]
+        ],
+        index=[0, 1], name="entry"
+    )
+
+    expected_en_result = Series(
+        data=[
+            ["This statement is English", "Ce ligne est Francais", "and English again"],
+            [
+                "Ce ligne est Francais", "This statement is English one",
+                "This statement is English", "1.2.4", "This statement is English"
+            ]
+        ],
+        index=[0, 1], name="entry"
+    )
+
+    expected_non_en_result = Series(
+        data=[
+            "",
+            ["Ce ligne est Francais une", "Ce ligne est Francais deux", "This statement is English", "Ce ligne est Francais"]
+        ],
+        index=[0, 1], name="entry"
+    )
+
+    en_entries, non_en_entries = xmle.get_language_sections(entries)
+    assert en_entries.equals(expected_en_result)
+    assert non_en_entries.equals(expected_non_en_result)
 
 
 def test_generate_xml(): # TODO update once generate_xml has been updated
