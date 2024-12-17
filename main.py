@@ -1,7 +1,5 @@
 import os
-from tqdm import tqdm
 from src.data import xml_extraction as xmle
-tqdm.pandas()
 
 CSV = True
 RAW_TEXT = True
