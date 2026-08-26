@@ -3,14 +3,14 @@ from src.data import xml_extraction as xmle
 
 CSV = True
 RAW_TEXT = True
-SPLIT_TEXT = True
+SPLIT_TEXT = False
 
 if __name__ == '__main__':
 
-    for i in range(1, 11):
+    for i in range(11, 12):
         print(f"Vol {i}: finding xmls at 2/4 column locations")
-        two_col_loc = f"data\\raw\\BMC_{i}_2\\*\\*.pxml"
-        four_col_loc = f"data\\raw\\BMC_{i}_4\\*\\*.pxml"
+        two_col_loc = f"data\\raw\\BMC_{i}_2\\*\\*.xml"
+        four_col_loc = f"data\\raw\\BMC_{i}_4\\*\\*.xml"
         xmls_2, xmls_4 = xmle.gen_xml_paths(two_col_loc), xmle.gen_xml_paths(four_col_loc)
         print(f"Extracting {len(xmls_2)} 2 col xmls and {len(xmls_4)} 4 col xmls for {len(xmls_2) + len(xmls_4)} total")
         vol_xml_trees = xmle.gen_xml_trees(xmls_2 + xmls_4)
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
         if RAW_TEXT:
             print("Saving raw txt files")
-            with open(os.path.join(out_path, f"BMC_{i}_full_text_single_line_v1.4.txt"), "w", encoding="utf-8") as f:
+            with open(os.path.join(out_path, f"_full_text_single_line_v1.txt"), "w", encoding="utf-8") as f:
                 entry_df.apply(lambda x: f.write(" ".join(x["entry"]) + "\n"), axis=1)
 
         if SPLIT_TEXT:
