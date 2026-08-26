@@ -155,7 +155,7 @@ c_re = re.compile(r"""
  \.[ ]?[a-z]+                  # stop, optional space, 1+ letter
  ([.,][ ]?[0-9-*]+)+           # 1+ (stop/comma, optional space, 1+ number)  
  ([. ]*[(][0-9. ]+[)])?        # allow followed by a bracketed sets of numbers
- (?=[ )]|\Z)                   # lookahead for [ )] or end of string
+ (?=[ ).]|\Z)                   # lookahead for [ )] or end of string
 """, re.VERBOSE)
 
 one_num_regex = re.compile(r"1\.\s[a-z]")
