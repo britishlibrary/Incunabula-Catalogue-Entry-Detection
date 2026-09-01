@@ -1,0 +1,325 @@
+{
+    "@context": "https://w3id.org/codemeta/3.0",
+    "applicationCategory": "SoftwareSourceCode,SoftwareApplication",
+    "author": [
+        {
+            "name": "British Library",
+            "@id": "https://github.com/britishlibrary",
+            "@type": "Organization"
+        },
+        {
+            "familyName": "Dunford",
+            "givenName": "Isaac",
+            "@type": "Person"
+        }
+    ],
+    "codeRepository": "https://github.com/britishlibrary/Incunabula-Catalogue-Entry-Detection",
+    "dateCreated": "2023-04-24",
+    "dateModified": "2024-06-07",
+    "datePublished": "2024-06-07",
+    "description": "Ongoing BL development of code produced in 2022/23 by Isaac Dunford as part of a Digital Humanities Internship funded by the School of Humanities at the University of Southampton.",
+    "downloadUrl": "https://github.com/britishlibrary/Incunabula-Catalogue-Entry-Detection/releases",
+    "identifier": "British-Library-Catalogue-Entry-Detection",
+    "license": "https://spdx.org/licenses/MIT",
+    "name": "Incunabula-Catalogue-Entry-Detection",
+    "programmingLanguage": "Jupyter Notebook",
+    "relatedLink": "https://doi.org/10.23636/ftbz-2532",
+    "releaseNotes": "This release reflects the DHNB branch of the repo at the state it was in when it was used for the [Catalogues as Data for Computational Analysis half day workshop](https://www.conftool.org/dhnb2024/index.php?page=browseSessions&form_session=106&presentations=show) at [Digital Humanities Nordic and Baltic 2024](https://dhnb.eu/conferences/dhnb2024/). \n\nThe content repo for the binder notebook is https://github.com/harrylloyd-bl/dhnb-incu-content-repo, also versioned to v1.0.0.\n\n**Full Changelog**: https://github.com/britishlibrary/Incunabula-Catalogue-Entry-Detection/commits/v1.0.0",
+    "softwareRequirements": [
+        {
+            "name": "backcall",
+            "version": "0.2.0=pyh9f0ad1d_0"
+        },
+        {
+            "name": "backports",
+            "version": "1.0=pyhd8ed1ab_3"
+        },
+        {
+            "name": "backports.functools_lru_cache",
+            "version": "1.6.4=pyhd8ed1ab_0"
+        },
+        {
+            "name": "bzip2",
+            "version": "1.0.8=h8ffe710_4"
+        },
+        {
+            "name": "ca-certificates",
+            "version": "2022.12.7=h5b45459_0"
+        },
+        {
+            "name": "colorama",
+            "version": "0.4.6=pyhd8ed1ab_0"
+        },
+        {
+            "name": "comm",
+            "version": "0.1.3=pyhd8ed1ab_0"
+        },
+        {
+            "name": "debugpy",
+            "version": "1.6.6=py311h12c1d0e_0"
+        },
+        {
+            "name": "decorator",
+            "version": "5.1.1=pyhd8ed1ab_0"
+        },
+        {
+            "name": "executing",
+            "version": "1.2.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "importlib-metadata",
+            "version": "6.1.0=pyha770c72_0"
+        },
+        {
+            "name": "importlib_metadata",
+            "version": "6.1.0=hd8ed1ab_0"
+        },
+        {
+            "name": "intel-openmp",
+            "version": "2023.0.0=h57928b3_25922"
+        },
+        {
+            "name": "ipykernel",
+            "version": "6.22.0=pyh025b116_0"
+        },
+        {
+            "name": "ipython",
+            "version": "8.12.0=pyh08f2357_0"
+        },
+        {
+            "name": "jedi",
+            "version": "0.18.2=pyhd8ed1ab_0"
+        },
+        {
+            "name": "jupyter_client",
+            "version": "8.1.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "jupyter_core",
+            "version": "5.3.0=py311h1ea47a8_0"
+        },
+        {
+            "name": "libblas",
+            "version": "3.9.0=16_win64_mkl"
+        },
+        {
+            "name": "libcblas",
+            "version": "3.9.0=16_win64_mkl"
+        },
+        {
+            "name": "libexpat",
+            "version": "2.5.0=h63175ca_1"
+        },
+        {
+            "name": "libffi",
+            "version": "3.4.2=h8ffe710_5"
+        },
+        {
+            "name": "libhwloc",
+            "version": "2.9.0=h51c2c0f_0"
+        },
+        {
+            "name": "libiconv",
+            "version": "1.17=h8ffe710_0"
+        },
+        {
+            "name": "liblapack",
+            "version": "3.9.0=16_win64_mkl"
+        },
+        {
+            "name": "libsodium",
+            "version": "1.0.18=h8d14728_1"
+        },
+        {
+            "name": "libsqlite",
+            "version": "3.40.0=hcfcfb64_0"
+        },
+        {
+            "name": "libxml2",
+            "version": "2.10.3=hc3477c8_6"
+        },
+        {
+            "name": "libzlib",
+            "version": "1.2.13=hcfcfb64_4"
+        },
+        {
+            "name": "matplotlib-inline",
+            "version": "0.1.6=pyhd8ed1ab_0"
+        },
+        {
+            "name": "mkl",
+            "version": "2022.1.0=h6a75c08_874"
+        },
+        {
+            "name": "nest-asyncio",
+            "version": "1.5.6=pyhd8ed1ab_0"
+        },
+        {
+            "name": "numpy",
+            "version": "1.24.2=py311h0b4df5a_0"
+        },
+        {
+            "name": "openssl",
+            "version": "3.1.0=hcfcfb64_0"
+        },
+        {
+            "name": "packaging",
+            "version": "23.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "pandas",
+            "version": "2.0.0=py311hf63dbb6_0"
+        },
+        {
+            "name": "parso",
+            "version": "0.8.3=pyhd8ed1ab_0"
+        },
+        {
+            "name": "pickleshare",
+            "version": "0.7.5=py_1003"
+        },
+        {
+            "name": "pip",
+            "version": "23.0.1=pyhd8ed1ab_0"
+        },
+        {
+            "name": "platformdirs",
+            "version": "3.2.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "prompt-toolkit",
+            "version": "3.0.38=pyha770c72_0"
+        },
+        {
+            "name": "prompt_toolkit",
+            "version": "3.0.38=hd8ed1ab_0"
+        },
+        {
+            "name": "psutil",
+            "version": "5.9.4=py311ha68e1ae_0"
+        },
+        {
+            "name": "pthreads-win32",
+            "version": "2.9.1=hfa6e2cd_3"
+        },
+        {
+            "name": "pure_eval",
+            "version": "0.2.2=pyhd8ed1ab_0"
+        },
+        {
+            "name": "pygments",
+            "version": "2.14.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "python",
+            "version": "3.11.2=h2628c8c_0_cpython"
+        },
+        {
+            "name": "python-dateutil",
+            "version": "2.8.2=pyhd8ed1ab_0"
+        },
+        {
+            "name": "python-tzdata",
+            "version": "2023.3=pyhd8ed1ab_0"
+        },
+        {
+            "name": "python_abi",
+            "version": "3.11=3_cp311"
+        },
+        {
+            "name": "pytz",
+            "version": "2023.3=pyhd8ed1ab_0"
+        },
+        {
+            "name": "pywin32",
+            "version": "304=py311h12c1d0e_2"
+        },
+        {
+            "name": "pyzmq",
+            "version": "25.0.2=py311h7b3f143_0"
+        },
+        {
+            "name": "setuptools",
+            "version": "67.6.1=pyhd8ed1ab_0"
+        },
+        {
+            "name": "six",
+            "version": "1.16.0=pyh6c4a22f_0"
+        },
+        {
+            "name": "stack_data",
+            "version": "0.6.2=pyhd8ed1ab_0"
+        },
+        {
+            "name": "tbb",
+            "version": "2021.8.0=h91493d7_0"
+        },
+        {
+            "name": "tk",
+            "version": "8.6.12=h8ffe710_0"
+        },
+        {
+            "name": "tornado",
+            "version": "6.2=py311ha68e1ae_1"
+        },
+        {
+            "name": "tqdm",
+            "version": "4.65.0=pyhd8ed1ab_1"
+        },
+        {
+            "name": "traitlets",
+            "version": "5.9.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "typing-extensions",
+            "version": "4.5.0=hd8ed1ab_0"
+        },
+        {
+            "name": "typing_extensions",
+            "version": "4.5.0=pyha770c72_0"
+        },
+        {
+            "name": "tzdata",
+            "version": "2023c=h71feb2d_0"
+        },
+        {
+            "name": "ucrt",
+            "version": "10.0.22621.0=h57928b3_0"
+        },
+        {
+            "name": "vc",
+            "version": "14.3=hb6edc58_10"
+        },
+        {
+            "name": "vs2015_runtime",
+            "version": "14.34.31931=h4c5c07a_10"
+        },
+        {
+            "name": "wcwidth",
+            "version": "0.2.6=pyhd8ed1ab_0"
+        },
+        {
+            "name": "wheel",
+            "version": "0.40.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "xz",
+            "version": "5.2.6=h8d14728_0"
+        },
+        {
+            "name": "zeromq",
+            "version": "4.3.4=h0e60522_1"
+        },
+        {
+            "name": "zipp",
+            "version": "3.15.0=pyhd8ed1ab_0"
+        },
+        {
+            "name": "langdetect",
+            "version": "1.0.9"
+        }
+    ],
+    "version": "v1.0.0",
+    "issueTracker": "https://github.com/britishlibrary/Incunabula-Catalogue-Entry-Detection/issues",
+    "@type": "SoftwareSourceCode"
+}
